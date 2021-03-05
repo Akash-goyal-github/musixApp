@@ -1,0 +1,62 @@
+<h1>Your Recommended Songs</h1>
+<input class="form-control" type="text" name="searching" [(ngModel)]="searching" (ngModelChange)="Searchingfun()"
+
+placeholder="Search your Recommended songs">
+
+
+<div class="card-container">
+  
+   
+    <mat-card *ngFor="let music of musics | paginate: {itemsPerPage:6, currentPage:p};">
+        <h3>{{music.trackName}}</h3>
+        <mat-icon class="song-delete">delete</mat-icon>
+        <mat-accordion>
+            
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="song-center">
+                   Artist
+                </mat-panel-title>
+                <mat-panel-description class="song-center">
+                     {{music.artistName}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="p-2"><img mat-card-img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg" alt="user" width="100" class="rounded-circle"></div>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="song-center">
+                    Album
+                </mat-panel-title>
+                <mat-panel-description class="song-center">
+                    {{ music.collectionName }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-card-content>
+                <audio controls [id]="index">
+                    <source [src]="music.previewUrl" type="audio/ogg">
+                    <source [src]="music.previewUrl" type="audio/mpeg">
+                </audio>
+                <div class="card-details">
+                    <p>Genra: {{ music.primaryGenreName }} </p>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <button #stopBtn mat-button color="primary" (click)="stopSong(music)">STOP</button>
+                <button #playBtn mat-flat-button color="primary" (click)="playSong(music)">PLAY</button>
+               
+                <span class="icon-edit" routerLink="/comment"><mat-icon onclick="document.getElementById('id01').style.display='block'" style="width:auto;">mode_edit</mat-icon></span>
+                 
+            </mat-card-actions>
+           
+    
+            </mat-expansion-panel>
+          </mat-accordion>
+          
+       
+    </mat-card> 
+
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+
